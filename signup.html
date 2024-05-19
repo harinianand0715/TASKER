@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIGNUP</title>
+</head>
+<style>
+
+  body{
+    padding: 0;
+    margin: 0;
+  }
+
+ .form-wrapper{
+    height: 100vh;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+  }
+
+  form{
+    padding: 30px;
+    height: 300px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #17252a ;
+    border-radius: 20px;
+  }
+
+  #sub{
+    color: #4be0d9;
+    margin-bottom: 5px;
+  }
+
+  .gmail-wrapper, .password-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  form > h1 , form > button, form > p{
+    align-self: center;
+  }
+
+  #gmail, #password{
+    margin-bottom: 10px;
+    height: 20px;
+  }
+
+
+  p{
+    color: white;
+    margin-top: 3px;
+  }
+
+  #brandname{
+    color: #4be0d9;
+    text-align: center;
+    font-size: 25px;
+  }
+
+  #signup{
+    background-color:#4be0d9 ;
+    height: 30px;
+    width: 100px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border-color: #4be0d9; 
+    color: #17252a ;
+ }
+
+  #logo{
+  width: 35px;
+  height: 35px;
+  margin-top: 20px;
+  }
+
+  .header{
+      display: flex;
+      gap: 3px;
+      justify-content: center;
+  }
+
+  #logindesign{
+    color: orangered;
+    margin-left: 5px;
+  }
+
+</style>
+<body>
+  
+  <div class="form-wrapper">
+    <form id="myForm" onsubmit="validation()">
+
+      <div class="header">
+        
+        <h3 id="brandname"> TASKER </h3>
+        <img id="logo" src="./todopng-removebg-preview.png">
+      
+      </div>
+     
+
+      <div class="gmail-wrapper">
+        <label id="sub" for="gmail">E-mail</label>
+        <input type="text" name="gmail" id="gmail" placeholder="user@gmail.com">
+      </div>
+
+      <div class="password-wrapper">      
+        <label id="sub" for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="User@123">
+      </div>
+  
+      <button id="signup"> SIGNUP </button>
+      <p>Already have an account?<span><a href="./login.html" id="logindesign">Login</a></span></p>
+   
+
+    </form>
+  </div>
+
+
+  <script>
+
+    function validation(){
+
+      var gmail = document.getElementById("gmail");
+      var password = document.getElementById("password");
+      var gmailtruth = false;
+      var passtruth = false;
+
+
+      //prevent Default behaviour of form submission
+      document.getElementById("myForm").addEventListener("submit", function(event) {
+        event.preventDefault(); 
+      });
+
+
+      //Gmail validation
+      if(gmail.value == ""){
+        window.alert("Please enter your email address");
+      } 
+      else if(!gmail.value.includes("@gmail.com")){
+        window.alert("Doesn't look like email address!");
+      }
+      else{
+        gmailtruth = true;
+      }
+
+      // password validation 
+      if(password.value == ""){
+        window.alert("Please enter your password");
+      }
+      else if(password.value.length < 6 || password.value.length > 18){
+        window.alert("password should be at least 6 characters & maximum 18 characters only");
+      }
+      else if(!validatePassword(password.value)){
+        window.alert("password should contain atleast 1 Alphabet, 1 uppercase and numbers in it!");
+      }
+      else{
+        passtruth = true;
+      }
+
+    //Passwords characters validation function
+    function validatePassword(password) {
+      var specialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+      var uppercaseChar = /[A-Z]+/;
+      var lowercaseChar = /[a-z]+/;
+      var numberChar = /[0-9]+/;
+
+      if (specialChar.test(password) && uppercaseChar.test(password) && lowercaseChar.test(password) && numberChar.test(password)) {
+        return true; 
+      }
+      else {
+        return false;
+      }
+    }
+
+    // LocalStorage storing it and check if already exists or not
+    if(!gmailtruth || !passtruth ){
+      event.preventDefault();
+      window.alert("Please fill the form correctly");
+    }
+    else{
+      event.preventDefault();
+      var signupData = JSON.parse(localStorage.getItem('signupData')) || [];
+
+      var exist = signupData.some(function(user) {
+        return user.email === gmail.value;
+      });
+
+      if(exist) {
+        event.preventDefault();
+        window.alert("Email already exists!,use different Gmail");
+      }
+      else{
+        event.preventDefault();
+        signupData.push({ email: gmail.value, password: password.value });
+        localStorage.setItem('signupData', JSON.stringify(signupData));
+        window.location.href = "./login.html";
+        window.alert("Signup successfully!");
+        window.alert("Login with the signed up Gmail with correct password!");
+      }
+    }
+      
+
+
+    
+  }
+
+  </script>
+</body>
+</html>

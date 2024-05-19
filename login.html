@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+<style>
+ body{
+    padding: 0;
+    margin: 0;
+  }
+
+ .form-wrapper{
+    height: 100vh;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+  }
+
+  form{
+    padding: 30px;
+    height: 300px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #17252a;
+    border-radius: 20px;
+  }
+
+  #sub{
+    color: #4be0d9;
+    margin-bottom: 5px;
+  }
+
+  .gmail-wrapper, .password-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  form > h1 , form > button, form > p{
+    align-self: center;
+  }
+
+  #gmail, #password{
+    margin-bottom: 10px;
+    height: 20px;
+  }
+
+  
+  p{
+    color: white;
+    margin-top: 3px;
+  }
+
+  #brandname{
+    color: #4be0d9;
+    text-align: center;
+    font-size: 25px;
+  }
+
+  #login{
+    background-color:#4be0d9 ;
+    height: 30px;
+    width: 100px;
+   margin-top: 20px;
+   border-radius: 10px;
+  border-color: #4be0d9; 
+  color: #17252a;
+ }
+
+  #logo{
+  width: 35px;
+  height: 35px;
+  margin-top: 20px;
+  }
+
+  .header{
+      display: flex;
+      gap: 3px;
+      justify-content: center;
+  }
+
+  #signupdesign{
+    color: orangered;
+  }
+
+</style>
+<body>
+
+  <div class="form-wrapper">
+    <form id="myForm" onsubmit="LoginValidation()">
+
+      
+      <div class="header">
+        
+        <h3 id="brandname"> WELCOME TO TASKER! </h3>
+        <img id="logo" src="./todopng-removebg-preview.png">
+      
+      </div>
+
+      <div class="gmail-wrapper">
+        <label id="sub" for="gmail">E-mail</label>
+        <input type="text" name="gmail" id="gmail" placeholder="user@gmail.com">
+      </div>
+
+      <div class="password-wrapper">      
+        <label id="sub" for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="User@123">
+      </div>
+  
+      <button id="login"> LOGIN </button>
+
+      <p>Don't have an account?<span><a href="./signup.html" id="signupdesign"> Signup</a></span></p>
+
+    </form>
+  </div>
+  <script>
+    function LoginValidation() {
+
+      
+      var email = document.getElementById("gmail").value;
+      var password = document.getElementById("password").value;
+
+      var signupData = JSON.parse(localStorage.getItem('signupData')) || [];
+
+      var isLoginSuccessful = signupData.some(function(user) {
+        return user.email === email && user.password === password;
+      });
+
+      if (isLoginSuccessful) {
+        event.preventDefault();
+        window.location.href = "./todo-list.html"; 
+        window.alert("Login successful!");
+      }
+      else {
+        event.preventDefault();
+        window.alert("Incorrect email or password!");
+      }
+    }
+
+
+  </script>
+</body>
+</html>
